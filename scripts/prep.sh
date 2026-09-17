@@ -22,7 +22,14 @@ for f in "$REDTEAM_DIR/.devcontainer/team/.opencode/agent"/*.md; do
 done
 echo "Custom agent roles installed"
 
-# Step 3: Clone asset repo if not already present
+# Step 3: Copy custom team library books into workspace
+if [ -d "$REDTEAM_DIR/.devcontainer/team/library" ]; then
+    mkdir -p "$REDTEAM_DIR/library"
+    cp -rf "$REDTEAM_DIR/.devcontainer/team/library/"* "$REDTEAM_DIR/library/"
+    echo "Custom red-team library books installed"
+fi
+
+# Step 4: Clone asset repo if not already present
 if [ ! -d "$CLONE_DIR/.git" ]; then
     echo "Cloning asset repo to $CLONE_DIR ..."
     git clone --depth 1 "https://github.com/${TARGET}.git" "$CLONE_DIR"
@@ -30,7 +37,7 @@ else
     echo "Asset clone already present at $CLONE_DIR"
 fi
 
-# Step 4: Bring up the local asset container
+# Step 5: Bring up the local asset container
 if [ -f "$CLONE_DIR/app/docker-compose.yml" ]; then
     echo "Starting local asset container ..."
     cd "$CLONE_DIR"
