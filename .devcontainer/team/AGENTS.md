@@ -39,6 +39,15 @@ The human runs `bash scripts/run-red.sh`. Agents produce findings and draft
 issue bodies. The human approves each issue before it is filed. The reporter
 script enforces this by asking for confirmation.
 
+## Tooling requests
+
+The box's tooling is fixed by the devcontainer. Agents must NEVER try to
+install a missing command themselves (apt/pip/npm/go install, downloading
+binaries) — such installs usually fail or vanish on rebuild. If a tool is
+genuinely needed, report exactly what and why to the human via the
+attack-director; it lands as a devcontainer change through HITL, not ad-hoc
+this round.
+
 ## Agents
 
 | Agent | Role |
