@@ -25,7 +25,8 @@ echo "Custom agent roles installed"
 # Step 3: Copy custom team library books into workspace
 if [ -d "$REDTEAM_DIR/.devcontainer/team/library" ]; then
     mkdir -p "$REDTEAM_DIR/library"
-    cp -rf "$REDTEAM_DIR/.devcontainer/team/library/"* "$REDTEAM_DIR/library/"
+    rm -rf "$REDTEAM_DIR/library/library"
+    cp -rf "$REDTEAM_DIR/.devcontainer/team/library/." "$REDTEAM_DIR/library/"
     echo "Custom red-team library books installed"
 fi
 
