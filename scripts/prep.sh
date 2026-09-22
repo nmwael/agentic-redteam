@@ -41,6 +41,15 @@ fi
 if [ -f "$CLONE_DIR/app/docker-compose.yml" ]; then
     echo "Starting local asset container ..."
     cd "$CLONE_DIR"
+
+    # The compose file references protected-container-asset:latest but does not
+    # build it; ensure the image exists before `up` (avoids a Docker Hub pull).
+    ASSET_IMAGE="${ASSET_IMAGE:-protected-container-asset:latest}"
+    if ! docker image inspect "$ASSET_IMAGE" >/dev/null 2>&1; then
+        echo "Building asset image (${ASSET_IMAGE}) from app/ ..."
+        bash scripts/build.sh
+    fi
+
     docker compose -f app/docker-compose.yml up -d
     cd "$REDTEAM_DIR"
 
